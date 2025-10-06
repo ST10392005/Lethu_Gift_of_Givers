@@ -1,0 +1,184 @@
+﻿@model IEnumerable<Lethu_Gift_of_Givers.Models.IncidentReport>
+@{
+    ViewData["Title"] = "Disaster Incidents";
+}
+
+<div class="container mt-5">
+    <!-- Header Section -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="fw-bold display-6 mb-2">
+                <i class="fas fa-exclamation-triangle text-danger me-3"></i>DISASTER INCIDENTS
+            </h1>
+            <p class="text-muted mb-0">Active emergency situations requiring attention</p>
+        </div>
+        <a asp-action="Report" class="btn btn-danger btn-lg px-4 py-3 shadow">
+            <i class="fas fa-plus me-2"></i> REPORT NEW INCIDENT
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <!-- Empty State -->
+        <div class="text-center py-5">
+            <div class="profile-icon-lg bg-gradient-secondary mb-4">
+                <i class="fas fa-exclamation-triangle fa-3x"></i>
+            </div>
+            <h3 class="fw-bold mb-3">NO ACTIVE INCIDENTS</h3>
+            <p class="text-muted mb-4">Be the first to report an incident and help coordinate emergency response.</p>
+            <a asp-action="Report" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-plus me-2"></i> REPORT FIRST INCIDENT
+            </a>
+        </div>
+    }
+    else
+    {
+        <!-- Stats Overview -->
+        <div class="row mb-5">
+            <div class="col-md-3 col-6">
+                <div class="card border-0 rounded-3 shadow-sm bg-gradient-danger text-white h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
+                        <h3 class="fw-bold mb-1">@Model.Count()</h3>
+                        <p class="mb-0 small">Total Incidents</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="card border-0 rounded-3 shadow-sm bg-gradient-warning text-white h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-clock fa-2x mb-3"></i>
+                        <h3 class="fw-bold mb-1">@Model.Count(i => i.UrgencyLevel?.ToLower() == "critical")</h3>
+                        <p class="mb-0 small">Critical</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="card border-0 rounded-3 shadow-sm bg-gradient-info text-white h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-sync fa-2x mb-3"></i>
+                        <h3 class="fw-bold mb-1">@Model.Count(i => i.Status?.ToLower() == "in progress")</h3>
+                        <p class="mb-0 small">In Progress</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="card border-0 rounded-3 shadow-sm bg-gradient-success text-white h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-check-circle fa-2x mb-3"></i>
+                        <h3 class="fw-bold mb-1">@Model.Count(i => i.Status?.ToLower() == "resolved")</h3>
+                        <p class="mb-0 small">Resolved</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Incidents Grid -->
+        <div class="row g-4">
+            @foreach (var incident in Model)
+            {
+                <div class="col-xl-6 col-lg-12">
+                    <div class="card h-100 border-0 shadow-lg rounded-3 feature-card border-start border-5 @GetUrgencyBorderClass(incident.UrgencyLevel)">
+                        <div class="card-header bg-gradient-dark text-white d-flex justify-content-between align-items-center py-3 border-0">
+                            <span class="badge @GetUrgencyBadgeClass(incident.UrgencyLevel) rounded-pill px-3 py-2 fw-bold">
+                                <i class="@GetUrgencyIcon(incident.UrgencyLevel) me-2"></i>@incident.UrgencyLevel
+                            </span>
+                            <small class="fw-semibold opacity-90">@incident.ReportedAt.ToString("MMM dd, yyyy")</small>
+                        </div>
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-bold text-dark mb-3 border-bottom pb-3">@incident.Title</h5>
+                            <p class="card-text text-dark mb-4">@incident.Description</p>
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-map-marker-alt text-danger me-3 fs-5"></i>
+                                        <div>
+                                            <small class="text-muted d-block fw-bold">LOCATION</small>
+                                            <strong class="text-dark">@incident.Location</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-calendar text-danger me-3 fs-5"></i>
+                                        <div>
+                                            <small class="text-muted d-block fw-bold">INCIDENT DATE</small>
+                                            <strong class="text-dark">@incident.IncidentDate.ToString("MMM dd, yyyy HH:mm")</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-tag text-danger me-3 fs-5"></i>
+                                        <div>
+                                            <small class="text-muted d-block fw-bold">DISASTER TYPE</small>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2 fw-bold">@incident.DisasterType</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent d-flex justify-content-between align-items-center py-3 border-top">
+                            <span class="badge @GetStatusBadgeClass(incident.Status) rounded-pill px-3 py-2 fw-bold">
+                                @incident.Status
+                            </span>
+                            <a asp-action="Details" asp-route-id="@incident.IncidentId" class="btn btn-primary btn-sm px-4 py-2 shadow">
+                                VIEW DETAILS <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@functions {
+    string GetUrgencyBorderClass(string urgency)
+    {
+        return urgency?.ToLower() switch
+        {
+            "critical" => "border-danger",
+            "high" => "border-warning",
+            "medium" => "border-info",
+            "low" => "border-success",
+            _ => "border-secondary"
+        };
+    }
+
+    string GetUrgencyBadgeClass(string urgency)
+    {
+        return urgency?.ToLower() switch
+        {
+            "critical" => "bg-danger text-white",
+            "high" => "bg-warning text-dark",
+            "medium" => "bg-info text-white",
+            "low" => "bg-success text-white",
+            _ => "bg-secondary text-white"
+        };
+    }
+
+    string GetUrgencyIcon(string urgency)
+    {
+        return urgency?.ToLower() switch
+        {
+            "critical" => "fas fa-skull-crossbones",
+            "high" => "fas fa-exclamation-circle",
+            "medium" => "fas fa-exclamation-triangle",
+            "low" => "fas fa-info-circle",
+            _ => "fas fa-question-circle"
+        };
+    }
+
+    string GetStatusBadgeClass(string status)
+    {
+        return status?.ToLower() switch
+        {
+            "pending" => "bg-warning text-dark",
+            "under review" => "bg-info text-white",
+            "in progress" => "bg-primary text-white",
+            "resolved" => "bg-success text-white",
+            _ => "bg-secondary text-white"
+        };
+    }
+}

@@ -1,0 +1,203 @@
+﻿@model Lethu_Gift_of_Givers.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <!-- Header Section -->
+            <div class="text-center mb-5">
+                <div class="profile-icon bg-gradient-success mb-4">
+                    <i class="fas fa-user-plus fa-2x"></i>
+                </div>
+                <h1 class="fw-bold display-6 mb-3">JOIN THE MISSION</h1>
+                <p class="text-muted">Create your account to start making a difference</p>
+            </div>
+
+            <div class="card border-0 rounded-3 shadow-lg feature-card">
+                <div class="card-header bg-gradient-success text-white py-4 border-0">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <i class="fas fa-user-plus fa-2x me-3"></i>
+                        <div>
+                            <h4 class="mb-0 fw-bold">ACCOUNT REGISTRATION</h4>
+                            <small class="opacity-90">Complete your profile</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success border-0 rounded-3 shadow-sm mb-4">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle fa-2x text-success me-3"></i>
+                                <div>
+                                    <h5 class="fw-bold mb-1">Registration Successful!</h5>
+                                    <p class="mb-0">@TempData["SuccessMessage"]</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <form asp-action="Register" method="post" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 rounded-3 shadow-sm mb-4"></div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-4">
+                                    <label asp-for="Username" class="form-label fw-bold fs-6 mb-3">
+                                        <i class="fas fa-user text-success me-2"></i>Username
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-2 border-end-0"><i class="fas fa-user text-success"></i></span>
+                                        <input asp-for="Username" class="form-control border-2 border-start-0 rounded-end-3 py-3" placeholder="Choose a username" />
+                                    </div>
+                                    <span asp-validation-for="Username" class="text-danger small fw-bold mt-1"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-4">
+                                    <label asp-for="Email" class="form-label fw-bold fs-6 mb-3">
+                                        <i class="fas fa-envelope text-success me-2"></i>Email
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-2 border-end-0"><i class="fas fa-envelope text-success"></i></span>
+                                        <input asp-for="Email" class="form-control border-2 border-start-0 rounded-end-3 py-3" placeholder="Enter your email" />
+                                    </div>
+                                    <span asp-validation-for="Email" class="text-danger small fw-bold mt-1"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-4">
+                                    <label asp-for="FirstName" class="form-label fw-bold fs-6 mb-3">
+                                        <i class="fas fa-id-card text-success me-2"></i>First Name
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-2 border-end-0"><i class="fas fa-id-card text-success"></i></span>
+                                        <input asp-for="FirstName" class="form-control border-2 border-start-0 rounded-end-3 py-3" placeholder="First name" />
+                                    </div>
+                                    <span asp-validation-for="FirstName" class="text-danger small fw-bold mt-1"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-4">
+                                    <label asp-for="LastName" class="form-label fw-bold fs-6 mb-3">
+                                        <i class="fas fa-id-card text-success me-2"></i>Last Name
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-2 border-end-0"><i class="fas fa-id-card text-success"></i></span>
+                                        <input asp-for="LastName" class="form-control border-2 border-start-0 rounded-end-3 py-3" placeholder="Last name" />
+                                    </div>
+                                    <span asp-validation-for="LastName" class="text-danger small fw-bold mt-1"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="PhoneNumber" class="form-label fw-bold fs-6 mb-3">
+                                <i class="fas fa-phone text-success me-2"></i>Phone Number
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-2 border-end-0"><i class="fas fa-phone text-success"></i></span>
+                                <input asp-for="PhoneNumber" class="form-control border-2 border-start-0 rounded-end-3 py-3" placeholder="Phone number (optional)" />
+                            </div>
+                            <span asp-validation-for="PhoneNumber" class="text-danger small fw-bold mt-1"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="Password" class="form-label fw-bold fs-6 mb-3">
+                                <i class="fas fa-key text-success me-2"></i>Password
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-2 border-end-0"><i class="fas fa-key text-success"></i></span>
+                                <input asp-for="Password" class="form-control border-2 border-start-0 rounded-end-3 py-3" type="password" placeholder="Create a strong password" />
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger small fw-bold mt-1"></span>
+                        </div>
+
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-success btn-lg py-3 fw-bold shadow">
+                                <i class="fas fa-user-plus me-2"></i> CREATE ACCOUNT
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4 pt-4 border-top">
+                        <p class="mb-0 text-muted fw-semibold">
+                            Already have an account?
+                            <a asp-action="Login" class="text-success fw-bold text-decoration-none">LOGIN HERE</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Benefits Section -->
+            <div class="row mt-4 text-center">
+                <div class="col-md-4">
+                    <div class="card border-0 rounded-3 shadow-sm bg-light h-100">
+                        <div class="card-body p-3">
+                            <i class="fas fa-bolt text-warning mb-2"></i>
+                            <h6 class="fw-bold mb-1">Quick Access</h6>
+                            <small class="text-muted">Instant system access</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 rounded-3 shadow-sm bg-light h-100">
+                        <div class="card-body p-3">
+                            <i class="fas fa-shield-alt text-success mb-2"></i>
+                            <h6 class="fw-bold mb-1">Secure</h6>
+                            <small class="text-muted">Protected account</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 rounded-3 shadow-sm bg-light h-100">
+                        <div class="card-body p-3">
+                            <i class="fas fa-chart-line text-primary mb-2"></i>
+                            <h6 class="fw-bold mb-1">Track Impact</h6>
+                            <small class="text-muted">Monitor contributions</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    .bg-gradient-success {
+        background: linear-gradient(135deg, var(--success-color), #2ecc71) !important;
+    }
+
+    .form-control, .form-select {
+        border: 2px solid #e9ecef;
+        transition: var(--transition);
+        font-weight: 500;
+    }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--success-color);
+            box-shadow: 0 0 0 0.25rem rgba(46, 204, 113, 0.25);
+            transform: translateY(-2px);
+        }
+
+    .btn-success {
+        background: linear-gradient(135deg, var(--success-color), #2ecc71);
+        border: none;
+        transition: var(--transition);
+    }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #219653, var(--success-color));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.3);
+        }
+</style>

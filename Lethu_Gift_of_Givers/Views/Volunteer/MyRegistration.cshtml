@@ -1,0 +1,199 @@
+﻿@model Lethu_Gift_of_Givers.Models.Volunteer
+@{
+    ViewData["Title"] = "My Volunteer Registration";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Header Section -->
+            <div class="text-center mb-5">
+                <h1 class="fw-bold display-6 mb-3">OPERATIVE PROFILE</h1>
+                <p class="text-muted">Your volunteer deployment information and status</p>
+            </div>
+
+            <div class="card border-0 rounded-3 shadow-lg feature-card">
+                <div class="card-header bg-gradient-info text-white py-4 border-0">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <i class="fas fa-user-shield fa-2x me-3"></i>
+                        <div>
+                            <h4 class="mb-0 fw-bold">VOLUNTEER OPERATIVE FILE</h4>
+                            <small class="opacity-90">Mission readiness profile</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-5">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success border-0 rounded-3 shadow-sm mb-4">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle fa-2x text-success me-3"></i>
+                                <div>
+                                    <h5 class="fw-bold mb-1">STATUS UPDATE</h5>
+                                    <p class="mb-0">@TempData["SuccessMessage"]</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model == null)
+                    {
+                        <!-- Not Registered State -->
+                        <div class="text-center py-5">
+                            <div class="profile-icon-lg bg-gradient-warning mb-4">
+                                <i class="fas fa-users fa-3x"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-3">OPERATIVE NOT REGISTERED</h5>
+                            <p class="text-muted mb-4">Join our elite volunteer response team for emergency deployments</p>
+                            <a asp-action="Register" class="btn btn-warning btn-lg px-5 py-3 shadow">
+                                <i class="fas fa-user-plus me-2"></i> ENLIST NOW
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- Volunteer Profile -->
+                        <div class="row align-items-center">
+                            <div class="col-md-4 text-center mb-4 mb-md-0">
+                                <div class="profile-icon-lg bg-gradient-info mb-4">
+                                    <i class="fas fa-hands-helping fa-2x"></i>
+                                </div>
+                                <span class="badge @GetStatusBadgeClass(Model.Status) fs-6 px-4 py-2 rounded-pill fw-bold">
+                                    @Model.Status.ToUpper()
+                                </span>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="operative-details">
+                                    <div class="row g-4">
+                                        <div class="col-sm-6">
+                                            <div class="border-start border-4 border-warning ps-3">
+                                                <small class="text-muted d-block mb-1 fw-bold">ENLISTMENT DATE</small>
+                                                <strong class="text-dark fs-6">@Model.RegisteredAt.ToString("MMMM dd, yyyy")</strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="border-start border-4 border-warning ps-3">
+                                                <small class="text-muted d-block mb-1 fw-bold">SPECIALTIES</small>
+                                                <strong class="text-dark fs-6">@Model.Skills</strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="border-start border-4 border-warning ps-3">
+                                                <small class="text-muted d-block mb-1 fw-bold">DEPLOYMENT READINESS</small>
+                                                <strong class="text-dark fs-6">@Model.Availability</strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="border-start border-4 border-warning ps-3">
+                                                <small class="text-muted d-block mb-1 fw-bold">OPERATIONAL ZONE</small>
+                                                <strong class="text-dark fs-6">@Model.PreferredLocation</strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="border-start border-4 border-warning ps-3">
+                                                <small class="text-muted d-block mb-1 fw-bold">MOBILITY STATUS</small>
+                                                <div>
+                                                    @if (Model.HasTransportation)
+                                                    {
+                                                        <span class="badge bg-success rounded-pill px-3 py-2 fw-bold">MOBILE UNIT ACTIVE</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-secondary rounded-pill px-3 py-2 fw-bold">TRANSPORT REQUIRED</span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="border-start border-4 border-warning ps-3">
+                                                <small class="text-muted d-block mb-1 fw-bold">EMERGENCY CONTACT</small>
+                                                <strong class="text-dark fs-6">@Model.EmergencyContact</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Panel -->
+                        <div class="mt-5 pt-4 border-top">
+                            <h5 class="fw-bold text-center mb-4 section-title">OPERATIONAL COMMANDS</h5>
+                            <div class="d-flex flex-column flex-md-row justify-content-center gap-3">
+                                <a asp-action="Index" class="btn btn-outline-primary btn-lg px-4 py-3">
+                                    <i class="fas fa-users me-2"></i> VIEW OPERATIVES
+                                </a>
+                                <a asp-controller="Report" asp-action="Index" class="btn btn-outline-danger btn-lg px-4 py-3">
+                                    <i class="fas fa-exclamation-triangle me-2"></i> ACTIVE MISSIONS
+                                </a>
+                                <a asp-controller="Donations" asp-action="Create" class="btn btn-outline-success btn-lg px-4 py-3">
+                                    <i class="fas fa-donate me-2"></i> RESOURCE SUPPORT
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Capabilities Overview -->
+            @if (Model != null)
+            {
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <div class="card border-0 rounded-3 shadow-sm bg-light h-100">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-tools fa-2x text-warning mb-3"></i>
+                                <h5 class="fw-bold">SPECIALTIES</h5>
+                                <p class="text-muted mb-0">@Model.Skills.Split(',').Length certified skills</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 rounded-3 shadow-sm bg-light h-100">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-map-marked-alt fa-2x text-info mb-3"></i>
+                                <h5 class="fw-bold">ZONE READY</h5>
+                                <p class="text-muted mb-0">Deployed in @Model.PreferredLocation</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 rounded-3 shadow-sm bg-light h-100">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-bolt fa-2x text-success mb-3"></i>
+                                <h5 class="fw-bold">RESPONSE TIME</h5>
+                                <p class="text-muted mb-0">@Model.Availability availability</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetStatusBadgeClass(string status)
+    {
+        return status?.ToLower() switch
+        {
+            "active" => "bg-success text-white",
+            "inactive" => "bg-secondary text-white",
+            "on leave" => "bg-warning text-dark",
+            "deployed" => "bg-danger text-white",
+            _ => "bg-secondary text-white"
+        };
+    }
+}
+
+<style>
+    .operative-details {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        padding: 2rem;
+        border-radius: var(--border-radius);
+        border: 2px solid #e9ecef;
+    }
+
+    .bg-gradient-info {
+        background: linear-gradient(135deg, var(--secondary-color), #3498db) !important;
+    }
+</style>

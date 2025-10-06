@@ -1,0 +1,246 @@
+﻿@model Lethu_Gift_of_Givers.Models.IncidentReportViewModel
+@{
+    ViewData["Title"] = "Report Incident";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Header Section -->
+            <div class="text-center mb-5">
+                <div class="profile-icon-lg bg-gradient-danger mb-4">
+                    <i class="fas fa-exclamation-triangle fa-2x"></i>
+                </div>
+                <h1 class="fw-bold display-6 mb-3">EMERGENCY REPORTING</h1>
+                <p class="text-muted">Report critical incidents for immediate response coordination</p>
+            </div>
+
+            <div class="card border-0 rounded-3 shadow-lg feature-card">
+                <div class="card-header bg-gradient-danger text-white text-center py-4 border-0">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
+                        <div>
+                            <h4 class="mb-0 fw-bold">DISASTER INCIDENT REPORT</h4>
+                            <small class="opacity-90">Provide accurate details for rapid response</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-5">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success border-0 rounded-3 shadow-sm mb-4">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle fa-2x text-success me-3"></i>
+                                <div>
+                                    <h5 class="fw-bold mb-1">REPORT SUBMITTED!</h5>
+                                    <p class="mb-0">@TempData["SuccessMessage"]</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <form asp-action="Report" method="post" class="needs-validation" novalidate>
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="All" class="alert alert-danger border-0 rounded-3 shadow-sm"></div>
+
+                        <!-- Incident Title -->
+                        <div class="form-group mb-4">
+                            <label asp-for="Title" class="form-label fw-bold fs-6 mb-3">
+                                <i class="fas fa-heading text-danger me-2"></i>INCIDENT TITLE
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-2 border-end-0"><i class="fas fa-heading text-danger"></i></span>
+                                <input asp-for="Title" class="form-control border-2 border-start-0 rounded-end-3 py-3" placeholder="Brief, descriptive title of the emergency" />
+                            </div>
+                            <span asp-validation-for="Title" class="text-danger small fw-bold mt-1"></span>
+                        </div>
+
+                        <!-- Incident Description -->
+                        <div class="form-group mb-4">
+                            <label asp-for="Description" class="form-label fw-bold fs-6 mb-3">
+                                <i class="fas fa-file-alt text-danger me-2"></i>DETAILED DESCRIPTION
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-2 border-end-0 align-items-start pt-3"><i class="fas fa-file-alt text-danger"></i></span>
+                                <textarea asp-for="Description" class="form-control border-2 border-start-0 rounded-end-3 py-3" rows="5" placeholder="Provide comprehensive details about what happened, current situation, and immediate needs"></textarea>
+                            </div>
+                            <span asp-validation-for="Description" class="text-danger small fw-bold mt-1"></span>
+                        </div>
+
+                        <div class="row g-4">
+                            <!-- Location -->
+                            <div class="col-md-6">
+                                <div class="form-group mb-4">
+                                    <label asp-for="Location" class="form-label fw-bold fs-6 mb-3">
+                                        <i class="fas fa-map-marker-alt text-danger me-2"></i>LOCATION
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-2 border-end-0"><i class="fas fa-map-marker-alt text-danger"></i></span>
+                                        <input asp-for="Location" class="form-control border-2 border-start-0 rounded-end-3 py-3" placeholder="City, Town, or Specific Area" />
+                                    </div>
+                                    <span asp-validation-for="Location" class="text-danger small fw-bold mt-1"></span>
+                                </div>
+                            </div>
+                            <!-- Report Date -->
+                            <div class="col-md-6">
+                                <div class="form-group mb-4">
+                                    <label asp-for="ReportDate" class="form-label fw-bold fs-6 mb-3">
+                                        <i class="fas fa-calendar text-danger me-2"></i>INCIDENT DATE & TIME
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-2 border-end-0"><i class="fas fa-calendar text-danger"></i></span>
+                                        <input asp-for="ReportDate" class="form-control border-2 border-start-0 rounded-end-3 py-3" type="datetime-local" />
+                                    </div>
+                                    <span asp-validation-for="ReportDate" class="text-danger small fw-bold mt-1"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-4">
+                            <!-- Disaster Type -->
+                            <div class="col-md-6">
+                                <div class="form-group mb-4">
+                                    <label asp-for="DisasterType" class="form-label fw-bold fs-6 mb-3">
+                                        <i class="fas fa-tag text-danger me-2"></i>DISASTER TYPE
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-2 border-end-0"><i class="fas fa-tag text-danger"></i></span>
+                                        <select asp-for="DisasterType" class="form-control border-2 border-start-0 rounded-end-3 py-3">
+                                            <option value="">Select Disaster Type</option>
+                                            <option value="Flood">Flood</option>
+                                            <option value="Fire">Fire</option>
+                                            <option value="Earthquake">Earthquake</option>
+                                            <option value="Storm">Storm</option>
+                                            <option value="Drought">Drought</option>
+                                            <option value="Landslide">Landslide</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="DisasterType" class="text-danger small fw-bold mt-1"></span>
+                                </div>
+                            </div>
+                            <!-- Urgency Level -->
+                            <div class="col-md-6">
+                                <div class="form-group mb-4">
+                                    <label asp-for="UrgencyLevel" class="form-label fw-bold fs-6 mb-3">
+                                        <i class="fas fa-exclamation text-danger me-2"></i>URGENCY LEVEL
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-2 border-end-0"><i class="fas fa-exclamation text-danger"></i></span>
+                                        <select asp-for="UrgencyLevel" class="form-control border-2 border-start-0 rounded-end-3 py-3">
+                                            <option value="">Select Urgency Level</option>
+                                            <option value="Low">Low - Monitoring Required</option>
+                                            <option value="Medium">Medium - Response Needed</option>
+                                            <option value="High">High - Immediate Action</option>
+                                            <option value="Critical">Critical - Emergency Response</option>
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="UrgencyLevel" class="text-danger small fw-bold mt-1"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Affected Areas -->
+                        <div class="form-group mb-5">
+                            <label asp-for="AffectedAreas" class="form-label fw-bold fs-6 mb-3">
+                                <i class="fas fa-users text-danger me-2"></i>AFFECTED AREAS & COMMUNITIES
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-2 border-end-0"><i class="fas fa-users text-danger"></i></span>
+                                <input asp-for="AffectedAreas" class="form-control border-2 border-start-0 rounded-end-3 py-3" placeholder="Specific areas, communities, or population affected" />
+                            </div>
+                            <span asp-validation-for="AffectedAreas" class="text-danger small fw-bold mt-1"></span>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex flex-column flex-md-row justify-content-end gap-3 pt-4 border-top">
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-5 py-3">
+                                <i class="fas fa-times me-2"></i> CANCEL
+                            </a>
+                            <button type="submit" class="btn btn-danger btn-lg px-5 py-3 shadow">
+                                <i class="fas fa-paper-plane me-2"></i> SUBMIT EMERGENCY REPORT
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Emergency Guidelines -->
+            <div class="row mt-4 text-center">
+                <div class="col-md-4">
+                    <div class="card border-0 rounded-3 shadow-sm bg-light h-100">
+                        <div class="card-body p-3">
+                            <i class="fas fa-bolt text-warning mb-2"></i>
+                            <h6 class="fw-bold mb-1">Quick Response</h6>
+                            <small class="text-muted">Reports processed immediately</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 rounded-3 shadow-sm bg-light h-100">
+                        <div class="card-body p-3">
+                            <i class="fas fa-shield-alt text-success mb-2"></i>
+                            <h6 class="fw-bold mb-1">Verified Process</h6>
+                            <small class="text-muted">All reports are validated</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 rounded-3 shadow-sm bg-light h-100">
+                        <div class="card-body p-3">
+                            <i class="fas fa-broadcast-tower text-danger mb-2"></i>
+                            <h6 class="fw-bold mb-1">Live Coordination</h6>
+                            <small class="text-muted">Real-time response teams</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Set default datetime to current time
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            document.getElementById('ReportDate').value = now.toISOString().slice(0, 16);
+        });
+    </script>
+}
+
+<style>
+    .bg-gradient-danger {
+        background: linear-gradient(135deg, var(--accent-color), #e67e22) !important;
+    }
+
+    .bg-gradient-dark {
+        background: linear-gradient(135deg, var(--dark-color), #1c2b36) !important;
+    }
+
+    .form-control, .form-select {
+        border: 2px solid #e9ecef;
+        transition: var(--transition);
+        font-weight: 500;
+    }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.25rem rgba(231, 76, 60, 0.25);
+            transform: translateY(-2px);
+        }
+
+    .btn-danger {
+        background: linear-gradient(135deg, var(--accent-color), #e67e22);
+        border: none;
+        transition: var(--transition);
+    }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #c0392b, var(--accent-color));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+        }
+</style>

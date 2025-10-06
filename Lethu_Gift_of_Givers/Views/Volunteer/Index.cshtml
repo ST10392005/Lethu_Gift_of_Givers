@@ -1,0 +1,193 @@
+﻿@model IEnumerable<Lethu_Gift_of_Givers.Models.Volunteer>
+@{
+    ViewData["Title"] = "Volunteers";
+}
+
+<div class="container mt-5">
+    <!-- Header Section -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="fw-bold display-6 mb-2">
+                <i class="fas fa-users text-warning me-3"></i>VOLUNTEER FORCE
+            </h1>
+            <p class="text-muted mb-0">Our dedicated team of emergency response volunteers</p>
+        </div>
+        <a asp-action="Register" class="btn btn-warning btn-lg px-4 py-3 shadow">
+            <i class="fas fa-user-plus me-2"></i> JOIN THE TEAM
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <!-- Empty State -->
+        <div class="text-center py-5">
+            <div class="profile-icon-lg bg-gradient-warning mb-4">
+                <i class="fas fa-users fa-3x"></i>
+            </div>
+            <h3 class="fw-bold mb-3">NO VOLUNTEERS YET</h3>
+            <p class="text-muted mb-4">Be the first to join our elite volunteer response team</p>
+            <a asp-action="Register" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-user-plus me-2"></i> BECOME FIRST VOLUNTEER
+            </a>
+        </div>
+    }
+    else
+    {
+        <!-- Volunteer Statistics -->
+        <div class="row mb-5">
+            <div class="col-md-3 col-6">
+                <div class="card border-0 rounded-3 shadow-sm bg-gradient-warning text-dark h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-users fa-2x mb-3"></i>
+                        <h3 class="fw-bold mb-1">@Model.Count()</h3>
+                        <p class="mb-0 small fw-bold">TOTAL VOLUNTEERS</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="card border-0 rounded-3 shadow-sm bg-gradient-success text-white h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-bolt fa-2x mb-3"></i>
+                        <h3 class="fw-bold mb-1">@Model.Count(v => v.Status == "Active")</h3>
+                        <p class="mb-0 small fw-bold">ACTIVE</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="card border-0 rounded-3 shadow-sm bg-gradient-info text-white h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-calendar-plus fa-2x mb-3"></i>
+                        <h3 class="fw-bold mb-1">@Model.Count(v => v.RegisteredAt > DateTime.UtcNow.AddDays(-30))</h3>
+                        <p class="mb-0 small fw-bold">NEW THIS MONTH</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="card border-0 rounded-3 shadow-sm bg-gradient-primary text-white h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-car fa-2x mb-3"></i>
+                        <h3 class="fw-bold mb-1">@Model.Count(v => v.HasTransportation)</h3>
+                        <p class="mb-0 small fw-bold">WITH TRANSPORT</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Volunteers Grid -->
+        <div class="row g-4">
+            @foreach (var volunteer in Model)
+            {
+                <div class="col-xl-4 col-lg-6 col-md-6">
+                    <div class="card h-100 border-0 shadow-lg rounded-3 feature-card">
+                        <div class="card-header bg-gradient-dark text-white text-center py-3 border-0">
+                            <h6 class="mb-0 fw-bold">VOLUNTEER PROFILE</h6>
+                        </div>
+                        <div class="card-body text-center p-4">
+                            <div class="profile-icon-sm bg-gradient-warning mb-4">
+                                <i class="fas fa-user-shield fa-2x"></i>
+                            </div>
+                            <h5 class="card-title fw-bold text-dark mb-3">@volunteer.User?.FirstName @volunteer.User?.LastName</h5>
+
+                            <!-- Volunteer Details -->
+                            <div class="text-start mb-4">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fas fa-tools text-warning me-3 fs-5"></i>
+                                    <div>
+                                        <small class="text-muted d-block fw-bold">SPECIALTIES</small>
+                                        <strong class="text-dark">@volunteer.Skills</strong>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fas fa-calendar-check text-warning me-3 fs-5"></i>
+                                    <div>
+                                        <small class="text-muted d-block fw-bold">DEPLOYMENT READINESS</small>
+                                        <strong class="text-dark">@volunteer.Availability</strong>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-map-marker-alt text-warning me-3 fs-5"></i>
+                                    <div>
+                                        <small class="text-muted d-block fw-bold">OPERATIONAL ZONE</small>
+                                        <strong class="text-dark">@volunteer.PreferredLocation</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Capabilities -->
+                            <div class="d-flex justify-content-center gap-2 mb-3">
+                                @if (volunteer.HasTransportation)
+                                {
+                                    <span class="badge bg-success rounded-pill px-3 py-2 fw-bold">
+                                        <i class="fas fa-car me-1"></i> MOBILE UNIT
+                                    </span>
+                                }
+                                <span class="badge @GetStatusBadgeClass(volunteer.Status) rounded-pill px-3 py-2 fw-bold">
+                                    @volunteer.Status.ToUpper()
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent text-center py-3 border-top">
+                            <small class="text-muted fw-bold">
+                                <i class="fas fa-calendar me-1"></i> ENLISTED: @volunteer.RegisteredAt.ToString("MMM dd, yyyy")
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Deployment Readiness -->
+        <div class="mt-5 pt-4">
+            <div class="card border-0 shadow-lg rounded-3 bg-gradient-dark text-white">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h5 class="fw-bold mb-2"><i class="fas fa-bullhorn me-2"></i>DEPLOYMENT READINESS</h5>
+                            <p class="mb-0 opacity-75">
+                                Our volunteer force stands ready for immediate emergency response and community support operations.
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-md-end">
+                            <div class="mt-3 mt-md-0">
+                                <div class="fw-bold fs-5">@Model.Count() OPERATIVES</div>
+                                <small class="opacity-75">@Model.Count(v => v.Status == "Active") combat ready</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@functions {
+    string GetStatusBadgeClass(string status)
+    {
+        return status?.ToLower() switch
+        {
+            "active" => "bg-success text-white",
+            "inactive" => "bg-secondary text-white",
+            "on leave" => "bg-warning text-dark",
+            "deployed" => "bg-danger text-white",
+            _ => "bg-secondary text-white"
+        };
+    }
+}
+
+<style>
+    .bg-gradient-warning {
+        background: linear-gradient(135deg, var(--warning-color), #f1c40f) !important;
+    }
+
+    .profile-icon-sm {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        color: white;
+        box-shadow: var(--box-shadow);
+    }
+</style>

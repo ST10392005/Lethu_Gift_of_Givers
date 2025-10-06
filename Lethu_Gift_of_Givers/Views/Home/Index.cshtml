@@ -1,0 +1,135 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="hero-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <div class="profile-icon-lg bg-gradient-primary mb-4">
+                    
+                </div>
+                <h1 class="display-4 fw-bold mb-4">STRONGER TOGETHER IN CRISIS</h1>
+                <p class="lead mb-5 fs-5">Providing immediate relief and long-term support to communities affected by natural disasters and emergencies through coordinated action.</p>
+                <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
+                    <a asp-controller="Report" asp-action="Report" class="btn btn-danger btn-hero">
+                        <i class="fas fa-exclamation-triangle me-2"></i> Report Emergency
+                    </a>
+                    <a asp-controller="Donations" asp-action="Create" class="btn btn-success btn-hero">
+                        <i class="fas fa-donate me-2"></i> Make Donation
+                    </a>
+                    <a asp-controller="Volunteer" asp-action="Register" class="btn btn-warning btn-hero">
+                        <i class="fas fa-hands-helping me-2"></i> Become Volunteer
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Impact Statistics -->
+<div class="stats-counter">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <div class="stat-number">1,250+</div>
+                    <div class="stat-label">Emergencies Responded</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <div class="stat-number">5,800+</div>
+                    <div class="stat-label">Volunteers</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <div class="stat-number">R4.2M+</div>
+                    <div class="stat-label">Donations Received</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <div class="stat-number">42</div>
+                    <div class="stat-label">Communities Served</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5 py-5">
+    <!-- Services Section -->
+    <h2 class="section-title fw-bold">OUR MISSION IN ACTION</h2>
+    <div class="row text-center g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card feature-card h-100 border-0">
+                <div class="card-body p-4">
+                    <i class="fas fa-exclamation-circle fa-3x text-white mb-3"></i>
+                    <h5 class="card-title fw-bold mb-3">Emergency Response</h5>
+                    <p class="card-text text-muted">Report disaster emergencies quickly and efficiently to ensure timely response and assistance.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card feature-card h-100 border-0">
+                <div class="card-body p-4">
+                    <i class="fas fa-box-open fa-3x text-white mb-3"></i>
+                    <h5 class="card-title fw-bold mb-3">Resource Management</h5>
+                    <p class="card-text text-muted">Donate essential resources like food, clothing, and medical supplies to affected communities.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card feature-card h-100 border-0">
+                <div class="card-body p-4">
+                    <i class="fas fa-users fa-3x text-white mb-3"></i>
+                    <h5 class="card-title fw-bold mb-3">Volunteer Network</h5>
+                    <p class="card-text text-muted">Join our network of volunteers and contribute your time and skills to relief efforts.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emergency Reports Section -->
+    <div class="row mt-5 pt-5">
+        <div class="col-md-10 mx-auto">
+            <h2 class="section-title fw-bold">RECENT EMERGENCY ACTIVITY</h2>
+            <div class="alert alert-info border-0 rounded-3 shadow-sm">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-broadcast-tower fa-2x text-info me-3"></i>
+                    <div>
+                        <strong class="d-block mb-1">LIVE UPDATES:</strong>
+                        Stay informed about recent disaster emergencies and active relief efforts in your area.
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a asp-controller="Report" asp-action="Index" class="btn btn-primary btn-lg px-5 py-3">
+                    View Emergency Reports <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-icon-lg {
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        color: white;
+        box-shadow: var(--box-shadow);
+        border: 3px solid rgba(255,255,255,0.2);
+    }
+
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+    }
+</style>

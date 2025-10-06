@@ -1,0 +1,85 @@
+﻿@model Lethu_Gift_of_Givers.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <!-- Header Section -->
+            <div class="text-center mb-5">
+                <div class="profile-icon bg-gradient-primary mb-4">
+                    <i class="fas fa-shield-alt fa-2x"></i>
+                </div>
+                <h1 class="fw-bold display-6 mb-3">SECURE ACCESS</h1>
+                <p class="text-muted">Sign in to manage your relief efforts</p>
+            </div>
+
+            <div class="card border-0 rounded-3 shadow-lg feature-card">
+                <div class="card-header bg-gradient-primary text-white py-4 border-0">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <i class="fas fa-sign-in-alt fa-2x me-3"></i>
+                        <div>
+                            <h4 class="mb-0 fw-bold">SYSTEM LOGIN</h4>
+                            <small class="opacity-90">Access your dashboard</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Login" method="post" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 rounded-3 shadow-sm mb-4"></div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="Username" class="form-label fw-bold fs-6 mb-3">
+                                <i class="fas fa-user text-primary me-2"></i>Username
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-2 border-end-0"><i class="fas fa-user text-primary"></i></span>
+                                <input asp-for="Username" class="form-control border-2 border-start-0 rounded-end-3 py-3" placeholder="Enter your username" />
+                            </div>
+                            <span asp-validation-for="Username" class="text-danger small fw-bold mt-1"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="Password" class="form-label fw-bold fs-6 mb-3">
+                                <i class="fas fa-lock text-primary me-2"></i>Password
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-2 border-end-0"><i class="fas fa-lock text-primary"></i></span>
+                                <input asp-for="Password" class="form-control border-2 border-start-0 rounded-end-3 py-3" type="password" placeholder="Enter your password" />
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger small fw-bold mt-1"></span>
+                        </div>
+
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg py-3 fw-bold shadow">
+                                <i class="fas fa-sign-in-alt me-2"></i> SECURE LOGIN
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4 pt-4 border-top">
+                        <p class="mb-0 text-muted fw-semibold">
+                            Need system access?
+                            <a asp-action="Register" class="text-primary fw-bold text-decoration-none">REQUEST ACCOUNT</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Features -->
+            <div class="row mt-4 text-center">
+                <div class="col-12">
+                    <small class="text-muted">
+                        <i class="fas fa-shield-alt text-success me-1"></i>
+                        Protected by enterprise-grade security
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
