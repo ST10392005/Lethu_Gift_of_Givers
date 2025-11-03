@@ -52,4 +52,4 @@ It successfully integrates cloud-based tools for scalability and automation, pro
 
 ---
 
-Would you like me to make this into a neatly formatted **Word document (DOCX)** version for your submission?
+
